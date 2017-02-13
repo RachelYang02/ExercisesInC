@@ -29,3 +29,85 @@
 4) The kernel is responsible for core capabilities like creating threads.
 
 5) Daemon is a process that runs in the background and provides operating system services.
+
+## Chapter 3
+
+### Virtual memory
+
+1) 6 bits because 5 bits will hold 32 letters (6 holds 64)
+
+2) 2^32 bits, or 4GiB
+
+3) Memory is volatile: the information stored there can be lost if, say, the machine shut down. Computers usually have 2-8 GiB of memory. Its contents include data from a process while it's running. When a process reads and writes to files, it puts the data in storage, which here means long-term storage. Computers can have storage on the magnitude of 500GB to 2TB.
+
+4) A GiB is 2^30 bytes, while a GB is 10^9. GiB is a binary unit and GB is a decimal unit. A GiB is 93.1% of a GB.
+
+5) Processes simply cannot generate and map different virtual addresses to the same physical memory because when the virtual address is translated into a physical address, it is done per-process, and so it automatically maps that virtual address to a different physical memory location.
+
+6) The stack and the heap are at opposite ends because both have the need to expand and grow, and so for both to be able to in the most efficient manner, it makes the most sense for them to be at opposite ends.
+
+7) Either a dictionary or a list of lists
+
+8) It's a mechanism when the operating system interrupts a process, saves its current state, then runs another process.
+
+### Aspace
+
+0)
+Allen's result
+Address of main is 0x40057c
+Address of global is 0x60104c
+Address of local is 0x7fffd26139c4
+Address of p is 0xc3b010
+
+Rachel's result
+Address of main is 0x40057d
+Address of global is 0x60104c
+Address of local is 0x7fffcbad9a64
+Address of p is 0x169c010
+
+1)
+Address of main is 0x40057d
+Address of global is 0x60104c
+Address of local is 0x7ffed532e46c
+Address of p is 0x6de010
+Address of r is 0x6de0a0
+
+2)
+Address of main is 0x4005ee
+Address of global is 0x601054
+Address of local is 0x7ffdecd857ac
+Address of local variable is 0x7ffdecd8578c
+stack grows down
+Address of p is 0x1f10010
+Address of r is 0x1f100a0
+
+3) 20
+Address of main is 0x4005ee
+Address of global is 0x601054
+Address of local is 0x7ffd19024fa8
+Address of local variable is 0x7ffd19024f8c
+stack grows down
+Address of p is 0x11a7010
+Address of r is 0x11a70a0
+Address of random one is 0x11a7130
+Address of random two is 0x11a7150
+
+
+## Chapter 4
+
+### Files and file systems
+
+1) The file system maps the file name to its contents; a file is a sequence of bytes. Files are bytes-based whereas persistent storage is block based.
+
+2) Generally, it keeps track of "file position" and how much of the file has been read. So it may store information such as line number or character number at any given point that flags the most the file has read up to that point in time.
+
+3) Block transfers (processor does 5 ms of work on each block to keep the processor busy), prefetching (loading blocks before a request to load it), buffering (modifying the block while its in memory and writing to the disk once), and caching (keeping copies of blocks in memory for quicker future requests)
+
+4) The data is in a cache, but still not written to the disc, and so is lost when the computer loses power even though it said it finished writing.
+
+5) For FAT, file sizes aren't fixed -- one doesn't need to know the size of the file in the beginning, while in inodes, file sizes are fixed. However, inodes make it easy to grow files and provides safe file renaming and directory copying.
+
+6) Overhead is the data structures used by the allocator, and it should be minimal so that as much space as possible is left for data. Fragmentation is the unused space left by unused or partially used blocks.
+
+7) Benefit: 1) programmers only have to learn one API 2) this principle makes
+programs more versatile. Downfall: when people have conflicting definitions of "file" -- file systems include objects that may not necessarily be a file (like sockets) and this can lead to problems if the programmer isn't understanding the abstraction correctly.
