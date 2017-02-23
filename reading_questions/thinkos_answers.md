@@ -62,6 +62,8 @@ Address of local is 0x7fffd26139c4
 Address of p is 0xc3b010
 
 Rachel's result
+
+
 Address of main is 0x40057d
 Address of global is 0x60104c
 Address of local is 0x7fffcbad9a64
