@@ -13,6 +13,8 @@ For this past sprint, our team accomplished what we set out to do, which was to 
 
 ## Exam Question + Solution
 Compare and contrast the following:
+
+
 1. Virtual Memory vs. Paging
 
     It's best for both processes to have their own logical address space that's separate
@@ -20,6 +22,7 @@ Compare and contrast the following:
     logical to physical addresses through pages, or chunks of memory. Virtual memory lets
     processes bigger than the available physical memory to be executed, and can be implemented
     using paging.
+    
 2. Buffer vs. Cache
 
     Both allow for temporary storage. A cache copies data and stores it on a slower medium,
