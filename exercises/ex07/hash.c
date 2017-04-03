@@ -23,13 +23,13 @@ typedef struct {
 } Value;
 
 
-/* Makes a Value object that contains an int. 
- * 
+/* Makes a Value object that contains an int.
+ *
  * i: value to store.
  *
- * returns: pointer to a new Value 
+ * returns: pointer to a new Value
  */
-Value *make_int_value(int i) 
+Value *make_int_value(int i)
 {
     Value *value = (Value *) malloc (sizeof (Value));
     value->type = INT;
@@ -38,13 +38,13 @@ Value *make_int_value(int i)
 }
 
 
-/* Makes a Value object that contains a string. 
- * 
+/* Makes a Value object that contains a string.
+ *
  * s: value to store.
  *
- * returns: pointer to a new Value 
+ * returns: pointer to a new Value
  */
-Value *make_string_value(char *s) 
+Value *make_string_value(char *s)
 {
     Value *value = (Value *) malloc (sizeof (Value));
     value->type = STRING;
@@ -53,12 +53,12 @@ Value *make_string_value(char *s)
 }
 
 
-/* Prints a value object. 
+/* Prints a value object.
  *
  * value: pointer to Value
  *
  */
-void print_value (Value *value) 
+void print_value (Value *value)
 {
     if (value == NULL) {
 	printf ("%p", value);
@@ -93,7 +93,7 @@ typedef struct {
 } Hashable;
 
 
-/* Makes a Hashable object. 
+/* Makes a Hashable object.
  *
  * key: pointer to anything
  * hash: function that can hash keys
@@ -102,7 +102,7 @@ typedef struct {
  * returns: pointer to Hashable
  *
 */
-Hashable *make_hashable(void *key, 
+Hashable *make_hashable(void *key,
 			int (*hash) (void *),
 			int (*equal) (void *, void *)
 			)
@@ -115,7 +115,7 @@ Hashable *make_hashable(void *key,
 }
 
 
-/* Prints a Hashable object. 
+/* Prints a Hashable object.
  *
  * hashable: pointer to hashable
  */
@@ -126,8 +126,8 @@ void print_hashable(Hashable *hashable)
 }
 
 
-/* Hashes an integer. 
- * 
+/* Hashes an integer.
+ *
  * p: pointer to integer
  *
  * returns: integer hash value
@@ -138,8 +138,8 @@ int hash_int(void *p)
 }
 
 
-/* Hashes a string. 
- * 
+/* Hashes a string.
+ *
  * p: pointer to first char of a string
  *
  * returns: integer hash value
@@ -158,7 +158,7 @@ int hash_string(void *p)
 }
 
 
-/* Hashes any Hashable. 
+/* Hashes any Hashable.
  *
  * hashable: Hashable object
  *
@@ -170,7 +170,7 @@ int hash_hashable(Hashable *hashable)
 }
 
 
-/* Compares integers. 
+/* Compares integers.
  *
  * ip: pointer to int
  * jp: pointer to int
@@ -179,12 +179,12 @@ int hash_hashable(Hashable *hashable)
  */
 int equal_int (void *ip, void *jp)
 {
-    // FILL THIS IN!
+    if (*((int*)ip)==*((int*)jp)) {return 1;}
     return 0;
 }
 
 
-/* Compares strings. 
+/* Compares strings.
  *
  * s1: pointer to first char of a string
  * s2: pointer to first char of a string
@@ -193,12 +193,12 @@ int equal_int (void *ip, void *jp)
  */
 int equal_string (void *s1, void *s2)
 {
-    // FILL THIS IN!
+    if (strcmp ((char*) s1,(char*) s2) == 0) {return 1;}
     return 0;
 }
 
 
-/* Compares Hashables. 
+/* Compares Hashables.
  *
  * h1: Hashable
  * h2: Hashable of the same type
@@ -208,15 +208,15 @@ int equal_string (void *s1, void *s2)
  */
 int equal_hashable(Hashable *h1, Hashable *h2)
 {
-    // FILL THIS IN!
+    return (h1->key == h2->key);
     return 0;
 }
 
 
-/* Makes a Hashable int. 
+/* Makes a Hashable int.
  *
  * Allocates space and copies the int.
- * 
+ *
  * x: integer to store
  *
  * returns: Hashable
@@ -229,10 +229,10 @@ Hashable *make_hashable_int (int x)
 }
 
 
-/* Makes a Hashable int. 
+/* Makes a Hashable int.
  *
  * Stores a reference to the string (not a copy).
- * 
+ *
  * s: string to store
  *
  * returns: Hashable
@@ -297,7 +297,13 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 /* Looks up a key and returns the corresponding value, or NULL */
 Value *list_lookup(Node *list, Hashable *key)
 {
-    // FILL THIS IN!
+    Node *current = list;
+    while (current != NULL) {
+      if (current->key == key) {
+        return current->value;
+      }
+      current = current->next;
+    }
     return NULL;
 }
 
@@ -342,15 +348,16 @@ void print_map(Map *map)
 /* Adds a key-value pair to a map. */
 void map_add(Map *map, Hashable *key, Value *value)
 {
-    // FILL THIS IN!
+    int hash = hash_hashable(key);
+    map->lists[hash] = prepend(key,value,map->lists[hash]);
 }
 
 
 /* Looks up a key and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
-    // FILL THIS IN!
-    return NULL;
+    int hash = hash_hashable(key);
+    return list_lookup(map->lists[hash],key);
 }
 
 
