@@ -3,6 +3,10 @@
 Copyright 2016 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+Completed by Rachel Yang
+
+GOAL: Build an implementation of a hash table.
+
 */
 
 #include <stdio.h>
