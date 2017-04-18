@@ -7,6 +7,7 @@
        License: Creative Commons Attribution-ShareAlike 3.0
 */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -83,6 +84,7 @@ typedef struct {
     int counter;
     int end;
     int *array;
+    Semaphore *sem;
 } Shared;
 
 /*  make_shared
@@ -105,6 +107,8 @@ Shared *make_shared (int end)
     for (i=0; i<shared->end; i++) {
         shared->array[i] = 0;
     }
+
+    shared->sem = make_semaphore(1);
     return shared;
 }
 
@@ -163,12 +167,16 @@ void child_code (Shared *shared)
 	    if (shared->counter >= shared->end) {
 	        return;
 	    }
+        // Executes code when semaphore > 0
+        sem_wait(shared->sem);
 	    shared->array[shared->counter]++;
 	    shared->counter++;
 
 	    // if (shared->counter % 100000 == 0) {
 	        // printf ("%d\n", shared->counter);
 	    // }
+        // Increments semaphore for other threads to use
+        sem_signal(shared->sem);
     }
 }
 
@@ -232,3 +240,8 @@ int main ()
     check_array (shared);
     return 0;
 }
+
+// Time for counter to run: 0m4.125s || Time for counter_mutex to run: 0m15.183s
+
+// Since we are using synchronization on few read-write operations, there
+// isn't that much synchronization overhead.
