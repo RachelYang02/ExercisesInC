@@ -1,13 +1,11 @@
-/* Example code for Exercises in C
+/*
+solution by Rachel Yang
 
+Example code for Exercises in C
 Copyright 2016 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
-
 Started with ex-ghashtable-3.c from
 http://www.ibm.com/developerworks/linux/tutorials/l-glib/section5.html
-
-Note: this version leaks memory.
-
 */
 
 #include <stdio.h>
@@ -55,8 +53,8 @@ void accumulator (gpointer key, gpointer value, gpointer user_data)
     pair->word = (gchar *) key;
     pair->freq = * (gint *) value;
 
-    g_sequence_insert_sorted (seq, 
-			      (gpointer) pair, 
+    g_sequence_insert_sorted (seq,
+			      (gpointer) pair,
 			      (GCompareDataFunc) compare_pair,
 			      NULL);
 }
